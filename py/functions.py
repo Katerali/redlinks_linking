@@ -241,6 +241,30 @@ def load_csvs_to_df(path, list_of_fnms):
     print('Total time: %.1f minutes' % ((time.time() - start_time)/60))
     return df_blue, df_red
 
+
+
+def load_csvs_to_df_general(path, list_of_fnms):
+    start_time = time.time()
+    df = pd.DataFrame()
+    n_files = len(list_of_fnms)
+    print(n_files)
+    
+    for index in range(n_files):
+        print(str(index+1) + '/' + str(n_files))
+        fn = list_of_fnms[index]
+        fn_new = path+fn
+        print(fn_new)
+        
+        df_articles = pd.read_csv(fn_new, encoding='UTF-8', sep='^')  
+        df = pd.concat((df, df_articles))
+
+    
+    print('Total time: %.1f minutes' % ((time.time() - start_time)/60))
+    return df
+
+
+
+
 # add ids for red links
 def ids_red_links(blue_ids_series, red_link_all_series):
     max_id = np.max(blue_ids_series)
@@ -248,3 +272,17 @@ def ids_red_links(blue_ids_series, red_link_all_series):
     red_links_ids = pd.DataFrame({'title': red_links, 
                               'id': np.arange(max_id+1, len(red_links)+max_id+1)})
     return red_links_ids
+
+
+
+def train_test_split(path, sample_df):
+    msk = np.random.rand(len(sample_df)) < 0.8
+    train = sample_df[msk]
+    test = sample_df[~msk]
+
+    print('train length =', len(train))
+    print('test length =', len(test))
+    
+    train.to_csv(path+'train_set.csv', sep='^')
+    test.to_csv(path+'test_set.csv', sep='^')
+
