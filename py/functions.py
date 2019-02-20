@@ -4,6 +4,8 @@ import gzip
 import time
 import pandas as pd
 import numpy as np
+import transliterate
+from transliterate import translit, get_available_language_codes
 
 
 
@@ -129,23 +131,6 @@ def calculate_norm_levenstein_df(row):
 
 
 
-def BabelNet_model(predictions):
-    if predictions == 1:
-        return True
-    else:
-        return False    
-
-
-def evaluate_BabelNet_model(ground_truth, model_results):
-    if ground_truth == model_results == False:
-        return 'TN'
-    if ground_truth == False and model_results == True:
-        return 'FP'
-    if ground_truth == model_results == True:
-        return 'TP'
-    if ground_truth == True and model_results == False:
-        return 'FN'
-
 
 def f1_score(evaluation_results):
     res = evaluation_results.value_counts()
@@ -153,18 +138,22 @@ def f1_score(evaluation_results):
         tp = res['TP']
     except:
         tp = 0
+    print('TP =', tp)
     try:
         tn = res['TN']
     except:
         tn = 0
+    print('TN =', tn)
     try:
         fp = res['FP']
     except:
         fp = 0
+    print('FP =', fp)
     try:
         fn = res['FN']
     except:
         fn = 0
+    print('FN =', fn)
     precision = tp/(tp + fp)
     print('precision =', precision)
 
@@ -208,15 +197,9 @@ def decode_df_from_to(dataframe, from_, to_):
     return dataframe_decoded
 
 
-def list_from_dir(path, pattern, list_with_files):
-    for file_ in os.listdir(path):
-        if re.search(pattern, file_):
-            list_with_files.append(file_)
-    return list_with_files
-
 
 # loading all articles to dataframe function
-def load_csvs_to_df(path, list_of_fnms):
+def load_csvs_to_df_spec(path, list_of_fnms):
     start_time = time.time()
     df_blue = pd.DataFrame()
     df_red = pd.DataFrame()
@@ -283,6 +266,13 @@ def train_test_split(path, sample_df):
     print('train length =', len(train))
     print('test length =', len(test))
     
-    train.to_csv(path+'train_set.csv', sep='^')
-    test.to_csv(path+'test_set.csv', sep='^')
+    train.to_csv(path+'train_set.csv', index=False, sep='^')
+    test.to_csv(path+'test_set.csv', index=False, sep='^')
+
+def divide_number(total, by):
+    part = total//by
+    list_numbers = [part] * by
+    if total - (part*by) > 0:
+        list_numbers.append(total%by)
+    return list_numbers
 
