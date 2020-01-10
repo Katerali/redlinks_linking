@@ -4,6 +4,7 @@ LOAD DATA
 
 go to the folder 'data' and run [YOU NEED ~ 600 MB]
 > ./get_data.sh
+
 The dataset will be loaded to 'data' folder
 
 
