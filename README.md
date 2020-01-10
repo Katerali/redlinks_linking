@@ -2,10 +2,10 @@ this repository contains code that handles a dataset of Ukrainian red links (htt
 
 LOAD DATA
 
-go to the folder 'data' and run [YOU NEED ~ 600 MB]
+go to the folder 'data' and run
 > ./get_data.sh
 
-The dataset will be loaded to 'data' folder
+The dataset will be loaded to 'data' folder [YOU NEED ~ 600 MB]
 
 
 WORK IN PROGRESS
