@@ -1,0 +1,30 @@
+# [general] Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# test cache
+.pytest_cache/
+
+
+# [general] Jupyter Notebook
+.ipynb_checkpoints
+
+# pickle, pt
+*.pickle
+*.pth
+
+# [project] datasets
+#data/
+
+# [project] log and other intermediate files
+materials/logs/
+
+# [project] results of model testing
+#materials/results/
+
+# [project] journal & plan & results
+#materials/*.md
+
+# ide
+.idea/
+
